@@ -1,42 +1,39 @@
-version: '0.1'
-
 services:
   db:
     image: mysql:8.0
     environment:
-      MYSQL_ROOT_PASSWORD: $SJdnan4Hu59$yeStSvh87gDn3hwbJr*
+      MYSQL_ROOT_PASSWORD: SJdnan4Hu59yeStSvh87gDn3hwbJr
       MYSQL_DATABASE: dbmwp
       MYSQL_USER: mwp
-      MYSQL_PASSWORD: Y6rvrT$ykzP@E6jP4a0yrRr2N$B^VX43
+      MYSQL_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
     volumes:
       - db_data:/var/lib/mysql
-      - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+      - ./db_schema.sql:/docker-entrypoint-initdb.d/db_schema.sql
     networks:
       - mwp
 
-  api:
-    build: ./api
-    ports:
-      - "5000:5000"
-    environment:
-      DB_HOST: db
-      DB_USER: mwp
-      DB_PASSWORD: Y6rvrT$ykzP@E6jP4a0yrRr2N$B^VX43
-      DB_NAME: dbmwp
-    depends_on:
-      - db
-    networks:
-      - mwp
+  # api:
+  #   build: ./api
+  #   ports:
+  #     - "5000:5000"
+  #   environment:
+  #     DB_HOST: db
+  #     DB_USER: mwp
+  #     DB_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
+  #     DB_NAME: dbmwp
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - mwp
 
   web:
     image: nginx:alpine
     volumes:
       - ./web:/usr/share/nginx/html:ro
-      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
     ports:
       - "8080:80"
-    depends_on:
-      - api
+    # depends_on:
+      # - api
     networks:
       - mwp
 
