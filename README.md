@@ -1,5 +1,7 @@
-Mechanic Workshop Project
+# Mechanic Workshop Project
 
-API/DB: Jordi
-WEB/: Cristian
-DOCKER/SCRIPTS: Denís
+Este proyecto está dividido en varias áreas con sus respectivos responsables:
+
+- **API/DB**: Jordi  
+- **Web**: Cristian  
+- **Docker/Scripts**: Denís
