@@ -38,30 +38,13 @@ header {
 
 header .container {
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
 }
 
 header h1 {
     color: var(--primary);
     font-size: 1.5rem;
-}
-
-nav ul {
-    display: flex;
-    list-style: none;
-    gap: 2rem;
-}
-
-nav a {
-    color: var(--gray-dark);
-    text-decoration: none;
-    font-weight: 500;
-    transition: color 0.3s;
-}
-
-nav a:hover {
-    color: var(--accent);
 }
 
 /* Main content */
@@ -108,8 +91,7 @@ label {
 }
 
 input,
-select,
-textarea {
+select {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid var(--gray);
@@ -143,15 +125,13 @@ button:hover {
 /* Footer */
 footer {
     background-color: white;
-    padding: 3rem 0 1.5rem;
-    margin-top: 3rem;
+    padding: 1.5rem;
     box-shadow: 0 -2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .footer-content {
     display: flex;
     justify-content: space-around;
-    margin-bottom: 2rem;
 }
 
 .contact-info,
