@@ -30,3 +30,14 @@ CREATE TABLE IF NOT EXISTS Cites (
     FOREIGN KEY (`idClient`) REFERENCES clients(`idClient`) ON DELETE CASCADE,
     FOREIGN KEY (`idVehicle`) REFERENCES vehicles(`idVehicle`) ON DELETE CASCADE
 );
+
+
+-- Usuarios y permisos
+
+CREATE USER 'mwp_user'@'localhost' IDENTIFIED BY 'secure_password';
+
+GRANT INSERT ON MWP.clients TO 'mwp_user'@'localhost';
+GRANT INSERT ON MWP.vehicles TO 'mwp_user'@'localhost';
+GRANT INSERT ON MWP.Cites TO 'mwp_user'@'localhost';
+
+FLUSH PRIVILEGES;
