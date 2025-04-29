@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Taller Mecanico</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Taller Mecanico</h1>
+            <nav>
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main>
+        <div class="container">
+            <form class="service-form">
+                <h2>Formulario de </h2>
+                
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="phone">Phone</label>
+                        <input type="tel" id="phone" name="phone" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="car-make">Car Make</label>
+                        <input type="text" id="car-make" name="car-make" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="car-model">Car Model</label>
+                        <input type="text" id="car-model" name="car-model" required>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="service">Service Type</label>
+                    <select id="service" name="service" required>
+                        <option value="">Select a service</option>
+                        <option value="oil">Oil Change</option>
+                        <option value="brakes">Brake Service</option>
+                        <option value="tire">Tire Service</option>
+                        <option value="inspection">General Inspection</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="date">Preferred Date</label>
+                    <input type="date" id="date" name="date" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="message">Additional Notes</label>
+                    <textarea id="message" name="message" rows="4"></textarea>
+                </div>
+
+                <button type="submit">Schedule Appointment</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="contact-info">
+                    <h3>Contact Us</h3>
+                    <p>123 Auto Street</p>
+                    <p>Phone: (555) 123-4567</p>
+                    <p>Email: service@autoservice.com</p>
+                </div>
+                <div class="hours">
+                    <h3>Hours</h3>
+                    <p>Mon-Fri: 8am - 6pm</p>
+                    <p>Sat: 9am - 2pm</p>
+                    <p>Sun: Closed</p>
+                </div>
+            </div>
+            <p class="copyright">© 2025 Auto Service. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>
