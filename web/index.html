@@ -30,9 +30,9 @@
                     </div>
                     <div class="form-group">
                         <label for="phone">Teléfono</label>
-                        <input type="tel" id="phone" name="phone" required>
+                        <input type="tel" id="phone" pattern="[0-9]{9}" required>
                     </div>
-                </div>
+                    </div>
 
                 <div class="form-row">
                     <div class="form-group">
@@ -47,13 +47,13 @@
 
                 <div class="form-group">
                     <label for="car-plate">Matrícula del Coche</label>
-                    <input type="text" id="car-plate" name="car-plate" required>
+                    <input type="text" id="car-plate" name="car-plate" pattern="[0-9]{4}[A-Z]{3}" required>
                 </div>
 
                 <div class="form-group">
                     <label for="service">Tipo de Servicio</label>
                     <select id="service" name="service" required>
-                        <option value="">Selecciona un servicio</option>
+                        <option value="">Selecciona un Servicio</option>
                         <option value="oil">Cambio de Aceite</option>
                         <option value="brakes">Servicio de Frenos</option>
                         <option value="tire">Servicio de Neumáticos</option>
