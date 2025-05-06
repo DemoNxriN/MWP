@@ -5,10 +5,14 @@ import os
 app = Flask(__name__)
 
 # Configuración de la conexión a SQL Server usando variables de entorno
-server = os.getenv('SQL_SERVER', 'TU_SERVIDOR_SQL')
-database = os.getenv('SQL_DATABASE', 'TU_BASE_DE_DATOS')
-username = os.getenv('SQL_USERNAME', 'TU_USUARIO')
-password = os.getenv('SQL_PASSWORD', 'TU_CONTRASEÑA')
+# server = os.getenv('SQL_SERVER', 'TU_SERVIDOR_SQL')
+# database = os.getenv('SQL_DATABASE', 'TU_BASE_DE_DATOS')
+# username = os.getenv('SQL_USERNAME', 'TU_USUARIO')
+# password = os.getenv('SQL_PASSWORD', 'TU_CONTRASEÑA')
+server = os.getenv('SQL_SERVER', 'localhost')
+database = os.getenv('SQL_DATABASE', 'mwp')
+username = os.getenv('SQL_USERNAME', 'mwp_user')
+password = os.getenv('SQL_PASSWORD', 'secure_password')
 connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 
 @app.route('/add_data', methods=['POST'])
