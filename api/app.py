@@ -10,9 +10,9 @@ app = Flask(__name__)
 # username = os.getenv('SQL_USERNAME', 'TU_USUARIO')
 # password = os.getenv('SQL_PASSWORD', 'TU_CONTRASEÑA')
 server = os.getenv('SQL_SERVER', 'localhost')
-database = os.getenv('SQL_DATABASE', 'mwp')
-username = os.getenv('SQL_USERNAME', 'mwp_user')
-password = os.getenv('SQL_PASSWORD', 'secure_password')
+database = os.getenv('SQL_DATABASE', 'dbmwp')
+username = os.getenv('SQL_USERNAME', 'clientmwp')
+password = os.getenv('SQL_PASSWORD', 'Y6rvrTykzPE6jP4a0yrRr2NBVX43')
 connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
 
 @app.route('/add_data', methods=['POST'])

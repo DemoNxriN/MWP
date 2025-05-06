@@ -18,7 +18,7 @@ services:
   #     - "5000:5000"
   #   environment:
   #     DB_HOST: db
-  #     DB_USER: mwp
+  #     DB_USER: clientmwp
   #     DB_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
   #     DB_NAME: dbmwp
   #   depends_on:

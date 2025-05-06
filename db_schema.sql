@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS MWP
+DROP DATABASE IF EXISTS taller_mecanic;
 GO
-CREATE DATABASE MWP
+CREATE DATABASE taller_mecanic;
 GO
-USE MWP
+USE taller_mecanic;
 GO
 
 CREATE TABLE IF NOT EXISTS clients (
@@ -35,9 +35,10 @@ CREATE TABLE IF NOT EXISTS Cites (
 -- Usuarios y permisos
 
 CREATE USER 'mwp_user'@'localhost' IDENTIFIED BY 'secure_password';
-
 GRANT INSERT ON MWP.clients TO 'mwp_user'@'localhost';
 GRANT INSERT ON MWP.vehicles TO 'mwp_user'@'localhost';
 GRANT INSERT ON MWP.Cites TO 'mwp_user'@'localhost';
+
+
 
 FLUSH PRIVILEGES;
