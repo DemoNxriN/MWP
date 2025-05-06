@@ -1,1 +1,0 @@
-# Encargado de scripts:
