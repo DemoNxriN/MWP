@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS dbmwp;
+DROP DATABASE IF EXISTS taller_mechanic;
 GO
-CREATE DATABASE dbmwp;
+CREATE DATABASE taller_mechanic;
 GO
-USE dbmwp;
+USE taller_mechanic;
 GO
 
 CREATE TABLE IF NOT EXISTS clients (
