@@ -51,15 +51,20 @@ ALTER TABLE `Vehicles`
 
 
 -- FOREIGN KEYS (Cambiar lo de abajo)
+-- Relaciones con la tabla Clientes y Vehicles
 ALTER TABLE 
     ADD CONSTRAINT FK_Cita_Cliente FOREIGN KEY (`IdClient`) 
-        REFERENCES clients(`IdClient`),
-    
-    ADD CONSTRAINT FK  FOREIGN KEY (`IdVehicle`) 
-REFERENCES Vehicles(`IdVehicle`)
+        REFERENCES `Clients`(`IdClient`),
+        ON DELETE CASCADE,
+    ADD CONSTRAINT FK_Cita_Vehicle FOREIGN KEY (`IdVehicle`) 
+        REFERENCES `Vehicles`(`IdVehicle`)
+        ON DELETE SET NULL;
 
 -- vehicles
-FOREIGN KEY (`IdClient`) REFERENCES clients(`IdClient`)
+ALTER
+ADD CONSTRAINT FK_Vehicle_Cliente FOREIGN KEY (`IdClient`) 
+    REFERENCES `Clients`(`IdClient`)
+    ON DELETE SET NULL
 
 
 -- UNIQUE
