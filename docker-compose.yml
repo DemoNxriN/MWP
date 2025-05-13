@@ -3,7 +3,7 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: SJdnan4Hu59yeStSvh87gDn3hwbJr
-      MYSQL_DATABASE: taller-mecànic
+      MYSQL_DATABASE: dbmwp
       MYSQL_USER: mwp
       MYSQL_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
     volumes:
