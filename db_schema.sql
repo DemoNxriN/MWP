@@ -49,17 +49,16 @@ ALTER TABLE `Vehicles`
     ADD CONSTRAINT PK_IdVehicle PRIMARY KEY (`IdVehicle`);
 
 
-
--- FOREIGN KEYS (Cambiar lo de abajo)
-ALTER TABLE 
+-- FOREIGN KEYS
+ALTER TABLE `Cita`
     ADD CONSTRAINT FK_Cita_Cliente FOREIGN KEY (`IdClient`) 
-        REFERENCES clients(`IdClient`),
-    
-    ADD CONSTRAINT FK  FOREIGN KEY (`IdVehicle`) 
-REFERENCES Vehicles(`IdVehicle`)
+        REFERENCES Clients(`IdClient`),
+    ADD CONSTRAINT FK_Cita_Vehicle FOREIGN KEY (`IdVehicle`) 
+        REFERENCES Vehicles(`IdVehicle`);
 
--- vehicles
-FOREIGN KEY (`IdClient`) REFERENCES clients(`IdClient`)
+ALTER TABLE `Vehicles`
+    ADD CONSTRAINT FK_Vehicle_Client FOREIGN KEY (`IdClient`) 
+        REFERENCES Clients(`IdClient`);
 
 
 -- UNIQUE

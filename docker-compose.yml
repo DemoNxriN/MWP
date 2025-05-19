@@ -12,22 +12,28 @@ services:
     networks:
       - mwp
 
-  # api:
-  #   build: ./api
-  #   ports:
-  #     - "5000:5000"
-  #   environment:
-  #     DB_HOST: db
-  #     DB_USER: clientmwp
-  #     DB_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
-  #     DB_NAME: dbmwp
-  #   depends_on:
-  #     - db
-  #   networks:
-  #     - mwp
 
+#Backend
+  api:
+     build: ./api
+     container_name: backend_api
+     ports:
+       - "5000:5000"
+     environment:
+       DB_HOST: db
+       DB_USER: mwp #Cambio esto de clientmwp a mwp porque el usuario de la base de datos es mwp, cualquier cosa se comenta y se cambia de nuevo si es necesario.
+       DB_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
+       DB_NAME: dbmwp
+     depends_on:
+       - db
+     networks:
+       - mwp
+
+
+#Frontend
   web:
     image: nginx:alpine
+    container_name: frontend_web
     volumes:
       - ./web:/usr/share/nginx/html:ro
     ports:

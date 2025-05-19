@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-import pyodbc
+import mysql.connector
 import os
 
 app = Flask(__name__)
@@ -9,11 +9,13 @@ app = Flask(__name__)
 # database = os.getenv('SQL_DATABASE', 'TU_BASE_DE_DATOS')
 # username = os.getenv('SQL_USERNAME', 'TU_USUARIO')
 # password = os.getenv('SQL_PASSWORD', 'TU_CONTRASEÑA')
-server = os.getenv('SQL_SERVER', 'localhost')
-database = os.getenv('SQL_DATABASE', 'taller_mechanic')
-username = os.getenv('SQL_USERNAME', 'clientmwp')
-password = os.getenv('SQL_PASSWORD', 'Y6rvrTykzPE6jP4a0yrRr2NBVX43')
-connection_string = f'DRIVER={{ODBC Driver 17 for SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}'
+db_config = {
+    'host': os.getenv('DB_HOST', 'localhost'),
+    'user': os.getenv('DB_USER', 'mwp'),
+    'password': os.getenv('DB_PASSWORD', 'Y6rvrTykzPE6jP4a0yrRr2NBVX43'),
+    'database': os.getenv('DB_NAME', 'dbmwp')
+}
+ 
 
 @app.route('/add_data', methods=['POST'])
 def add_data():
@@ -29,17 +31,17 @@ def add_data():
             return jsonify({'error': 'Faltan datos: nombre y edad son requeridos'}), 400
 
         # Conectar a la base de datos
-        conn = pyodbc.connect(connection_string)
+        conn = mysql.connector.connect(**db_config)
         cursor = conn.cursor()
 
         # Insertar datos en la base de datos
-        query = "INSERT INTO TuTabla (nombre, edad) VALUES (?, ?)"
+        query = "INSERT INTO TuTabla (nombre, edad) VALUES (%s, %s)"
         cursor.execute(query, (nombre, edad))
         conn.commit()
 
         return jsonify({'message': 'Datos añadidos correctamente'}), 200
 
-    except pyodbc.Error as db_err:
+    except mysql.connector.Error as db_err:
         return jsonify({'error': f'Error en la base de datos: {str(db_err)}'}), 500
     except Exception as e:
         return jsonify({'error': f'Error inesperado: {str(e)}'}), 500
