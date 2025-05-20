@@ -1,6 +1,8 @@
+
 services:
   db:
     image: mysql:8.0
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: SJdnan4Hu59yeStSvh87gDn3hwbJr
       MYSQL_DATABASE: dbmwp
@@ -12,34 +14,41 @@ services:
     networks:
       - mwp
 
-
 #Backend
   api:
-     build: ./api
-     container_name: backend_api
-     ports:
-       - "5000:5000"
-     environment:
-       DB_HOST: db
-       DB_USER: mwp #Cambio esto de clientmwp a mwp porque el usuario de la base de datos es mwp, cualquier cosa se comenta y se cambia de nuevo si es necesario.
-       DB_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
-       DB_NAME: dbmwp
-     depends_on:
-       - db
-     networks:
-       - mwp
-
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    container_name: backend_api
+    restart: unless-stopped
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: db
+      DB_USER: mwp
+      DB_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
+      DB_NAME: dbmwp
+    depends_on:
+      - db
+    networks:
+      - mwp
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000"]
+      interval: 30s
+      timeout: 10s
+      retries: 5
 
 #Frontend
   web:
     image: nginx:alpine
     container_name: frontend_web
+    restart: unless-stopped
     volumes:
       - ./web:/usr/share/nginx/html:ro
     ports:
       - "8080:80"
-    # depends_on:
-      # - api
+    depends_on:
+      - api
     networks:
       - mwp
 
