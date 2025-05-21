@@ -1,55 +1,83 @@
 from flask import Flask, request, jsonify
-import mysql.connector
+import pymysql
 import os
 
 app = Flask(__name__)
 
-# Configuración de la conexión a SQL Server usando variables de entorno
-# server = os.getenv('SQL_SERVER', 'TU_SERVIDOR_SQL')
-# database = os.getenv('SQL_DATABASE', 'TU_BASE_DE_DATOS')
-# username = os.getenv('SQL_USERNAME', 'TU_USUARIO')
-# password = os.getenv('SQL_PASSWORD', 'TU_CONTRASEÑA')
-db_config = {
-    'host': os.getenv('DB_HOST', 'localhost'),
-    'user': os.getenv('DB_USER', 'mwp'),
-    'password': os.getenv('DB_PASSWORD', 'Y6rvrTykzPE6jP4a0yrRr2NBVX43'),
-    'database': os.getenv('DB_NAME', 'dbmwp')
-}
- 
+# Configuración desde variables de entorno
+DB_HOST = os.environ.get("DB_HOST", "localhost")
+DB_USER = os.environ.get("DB_USER", "mwp")
+DB_PASSWORD = os.environ.get("DB_PASSWORD", "Y6rvrTykzPE6jP4a0yrRr2NBVX43")
+DB_NAME = os.environ.get("DB_NAME", "dbmwp")
 
-@app.route('/add_data', methods=['POST'])
-def add_data():
-    conn = None
+def get_db_connection():
+    return pymysql.connect(
+        host=DB_HOST,
+        user=DB_USER,
+        password=DB_PASSWORD,
+        database=DB_NAME,
+        cursorclass=pymysql.cursors.DictCursor
+    )
+
+@app.route("/api/cita", methods=["POST"])
+def crear_cita():
+    data = request.get_json()
+
+    name = data.get("name")
+    email = data.get("email")
+    phone = data.get("phone")
+    car_make = data.get("car_make")
+    car_model = data.get("car_model")
+    car_plate = data.get("car_plate")
+    service = data.get("service")
+    date = data.get("date")
+
+    if not all([name, email, phone, car_make, car_model, car_plate, service, date]):
+        return jsonify({"error": "Faltan campos obligatorios"}), 400
+
     try:
-        # Obtener datos del cuerpo de la solicitud
-        data = request.json
-        nombre = data.get('nombre')
-        edad = data.get('edad')
+        conn = get_db_connection()
+        with conn.cursor() as cursor:
+            # Insertar cliente (si no existe)
+            cursor.execute("SELECT IdClient FROM Clients WHERE email = %s", (email,))
+            client = cursor.fetchone()
 
-        # Validar datos
-        if not nombre or not edad:
-            return jsonify({'error': 'Faltan datos: nombre y edad son requeridos'}), 400
+            if client:
+                client_id = client["IdClient"]
+            else:
+                cursor.execute(
+                    "INSERT INTO Clients (nom, DNI, telefon, email) VALUES (%s, %s, %s, %s)",
+                    (name, "00000000X", phone, email)
+                )
+                client_id = cursor.lastrowid
 
-        # Conectar a la base de datos
-        conn = mysql.connector.connect(**db_config)
-        cursor = conn.cursor()
+            # Insertar vehículo (si no existe)
+            cursor.execute("SELECT IdVehicle FROM Vehicles WHERE matricula = %s", (car_plate,))
+            vehicle = cursor.fetchone()
 
-        # Insertar datos en la base de datos
-        query = "INSERT INTO TuTabla (nombre, edad) VALUES (%s, %s)"
-        cursor.execute(query, (nombre, edad))
+            if vehicle:
+                vehicle_id = vehicle["IdVehicle"]
+            else:
+                cursor.execute(
+                    "INSERT INTO Vehicles (IdClient, matricula, model, any) VALUES (%s, %s, %s, %s)",
+                    (client_id, car_plate, f"{car_make} {car_model}", 2020)
+                )
+                vehicle_id = cursor.lastrowid
+
+            # Insertar cita
+            cursor.execute(
+                "INSERT INTO Cita (IdClient, data, servei, IdVehicle) VALUES (%s, %s, %s, %s)",
+                (client_id, date, service, vehicle_id)
+            )
+
         conn.commit()
+        return jsonify({"message": "Cita creada correctamente"}), 201
 
-        return jsonify({'message': 'Datos añadidos correctamente'}), 200
-
-    except mysql.connector.Error as db_err:
-        return jsonify({'error': f'Error en la base de datos: {str(db_err)}'}), 500
     except Exception as e:
-        return jsonify({'error': f'Error inesperado: {str(e)}'}), 500
-    finally:
-        # Asegurarse de cerrar la conexión
-        if conn:
-            conn.close()
+        return jsonify({"error": str(e)}), 500
 
-if __name__ == '__main__':
-    from waitress import serve
-    serve(app, host="0.0.0.0", port=5000)
+    finally:
+        conn.close()
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)

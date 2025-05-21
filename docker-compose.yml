@@ -1,6 +1,5 @@
 version: '3.8'
 
-
 services:
   db:
     image: mysql:8.0
@@ -14,21 +13,24 @@ services:
       - db_data:/var/lib/mysql
       - ./db_schema.sql:/docker-entrypoint-initdb.d/db_schema.sql
     networks:
-      - mwp
+      mwp:
+        ipv4_address: 172.28.0.2
 
-  # api:
-  #   build: ./api
-  #   ports:
-  #     - "5000:5000"
-  #   environment:
-  #     DB_HOST: db
-  #     DB_USER: clientmwp
-  #     DB_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
-  #     DB_NAME: dbmwp
-  #   depends_on:
-  #     - db
-  #   networks:
-  #     - mwp
+  api:
+    build: ./api
+    container_name: backend_api
+    ports:
+      - "5000:5000"
+    environment:
+      DB_HOST: db
+      DB_USER: mwp
+      DB_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
+      DB_NAME: dbmwp
+    depends_on:
+      - db
+    networks:
+      mwp:
+        ipv4_address: 172.28.0.3
 
   web:
     image: nginx:alpine
