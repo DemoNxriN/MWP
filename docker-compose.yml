@@ -5,7 +5,7 @@ services:
     image: mysql:8.0
     environment:
       MYSQL_ROOT_PASSWORD: SJdnan4Hu59yeStSvh87gDn3hwbJr
-      MYSQL_DATABASE: dbmwp
+      MYSQL_DATABASE: taller_mechanic
       MYSQL_USER: mwp
       MYSQL_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
     volumes:
@@ -23,7 +23,7 @@ services:
       DB_HOST: 172.28.0.2
       DB_USER: mwp
       DB_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
-      DB_NAME: dbmwp
+      DB_NAME: taller_mechanic
     depends_on:
       - db
     networks:
