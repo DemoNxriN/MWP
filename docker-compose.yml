@@ -1,37 +1,39 @@
 version: '3.8'
 
+
 services:
   db:
     image: mysql:8.0
+    restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: SJdnan4Hu59yeStSvh87gDn3hwbJr
-      MYSQL_DATABASE: taller_mechanic
+      MYSQL_DATABASE: dbmwp
       MYSQL_USER: mwp
       MYSQL_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
     volumes:
       - db_data:/var/lib/mysql
       - ./db_schema.sql:/docker-entrypoint-initdb.d/db_schema.sql
     networks:
-      mwp:
-        ipv4_address: 172.28.0.2
+      - mwp
 
-  api:
-    build: ./api
-    ports:
-      - "5000:5000"
-    environment:
-      DB_HOST: 172.28.0.2
-      DB_USER: mwp
-      DB_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
-      DB_NAME: taller_mechanic
-    depends_on:
-      - db
-    networks:
-      mwp:
-        ipv4_address: 172.28.0.3
+  # api:
+  #   build: ./api
+  #   ports:
+  #     - "5000:5000"
+  #   environment:
+  #     DB_HOST: db
+  #     DB_USER: clientmwp
+  #     DB_PASSWORD: Y6rvrTykzPE6jP4a0yrRr2NBVX43
+  #     DB_NAME: dbmwp
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - mwp
 
   web:
     image: nginx:alpine
+    container_name: frontend_web
+    restart: unless-stopped
     volumes:
       - ./web:/usr/share/nginx/html:ro
     ports:
