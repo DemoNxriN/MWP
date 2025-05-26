@@ -1,12 +1,11 @@
 from flask import Flask, request, jsonify
 import pymysql
 import os
-from flask_cors import CORS 
+from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 
-# Configuración desde variables de entorno
 DB_HOST = os.environ.get("DB_HOST", "localhost")
 DB_USER = os.environ.get("DB_USER", "mwp")
 DB_PASSWORD = os.environ.get("DB_PASSWORD", "Y6rvrTykzPE6jP4a0yrRr2NBVX43")
@@ -37,10 +36,10 @@ def crear_cita():
     if not all([name, email, phone, car_make, car_model, car_plate, service, date]):
         return jsonify({"error": "Faltan campos obligatorios"}), 400
 
+    conn = None
     try:
         conn = get_db_connection()
         with conn.cursor() as cursor:
-            # Insertar cliente (si no existe)
             cursor.execute("SELECT IdClient FROM Clients WHERE email = %s", (email,))
             client = cursor.fetchone()
 
@@ -53,7 +52,6 @@ def crear_cita():
                 )
                 client_id = cursor.lastrowid
 
-            # Insertar vehículo (si no existe)
             cursor.execute("SELECT IdVehicle FROM Vehicles WHERE matricula = %s", (car_plate,))
             vehicle = cursor.fetchone()
 
@@ -66,7 +64,6 @@ def crear_cita():
                 )
                 vehicle_id = cursor.lastrowid
 
-            # Insertar cita
             cursor.execute(
                 "INSERT INTO Cita (IdClient, data, servei, IdVehicle) VALUES (%s, %s, %s, %s)",
                 (client_id, date, service, vehicle_id)
@@ -76,10 +73,12 @@ def crear_cita():
         return jsonify({"message": "Cita creada correctamente"}), 201
 
     except Exception as e:
+        print(f"Error en crear_cita: {e}")
         return jsonify({"error": str(e)}), 500
 
     finally:
-        conn.close()
+        if conn is not None and conn.open:
+            conn.close()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
