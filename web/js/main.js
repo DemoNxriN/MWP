@@ -14,16 +14,22 @@ document.addEventListener("DOMContentLoaded", function () {
         };
 
         try {
-            const response = await fetch("http://localhost:5000/api/cita", {
+            const response = await fetch("/api/cita", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(formData),
             });
 
+            if (!response.ok) {
+                const errorText = await response.text();
+                throw new Error(`HTTP error! Status: ${response.status}, Response: ${errorText}`);
+            }
+
             const result = await response.json();
             alert(result.message || result.error);
         } catch (error) {
             alert("Error al enviar el formulario: " + error.message);
+            console.error("Detalle del error:", error);
         }
     });
 });
