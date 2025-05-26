@@ -2,6 +2,6 @@
 
 Este proyecto está dividido en varias áreas con sus respectivos responsables:
 
-- **DB**: Jordi
+- **AFK**: Jordi
 - **Docker/Scripts/API/Web**: Cristian
 - **Docker/DB**: Denís
