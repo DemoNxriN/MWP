@@ -1,8 +1,10 @@
 from flask import Flask, request, jsonify
 import pymysql
 import os
+from flask_cors import CORS 
 
 app = Flask(__name__)
+CORS(app)
 
 # Configuración desde variables de entorno
 DB_HOST = os.environ.get("DB_HOST", "localhost")
